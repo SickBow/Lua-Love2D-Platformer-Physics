@@ -1,7 +1,7 @@
 physics = {}
 physics.world = {}
 
---physics objects can be referenced and manipulated (adding force, subtracting force) with "physics.world.(object name here).(specific function name here)"
+--physics objects can be referenced and manipulated (adding force, subtracting force functions) with "physics.world.(object name here).(specific function name here)"
 --this only works after adding them to the world/simulation due to them having unique names the user may create
 --each object will be initialized with its own gravity, in case you want to make a bird or a static object (floors or surfaces)
 
