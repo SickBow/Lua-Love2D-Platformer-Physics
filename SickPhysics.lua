@@ -1,11 +1,7 @@
-
 physics = {}
-physics.world = {
-	--how many objects in the world
-	objects = 0
-}
+physics.world = {}
 
---physics objects can be referenced and manipulated (adding force, subtracting force) with "physics.world.(object name here).(specific function name here)"
+--physics objects can be referenced and manipulated (adding force, subtracting force functions) with "physics.world.(object name here).(specific function name here)"
 --this only works after adding them to the world/simulation due to them having unique names the user may create
 --each object will be initialized with its own gravity, in case you want to make a bird or a static object (floors or surfaces)
 
@@ -32,21 +28,19 @@ end
 
 --all physics objects created must be added to the world to use properly
 function physics.world:add (object)
-	self.objects = self.objects + 1
-	self[self.objects] = object
+	table.insert(self, object)
 end
 
 function physics.world:delete (object)
-	self.object = nil
-	self.objects = self.objects - 1
+	table.remove(self, object)
 end
 
 --must be placed in love.update(dt) function of your game 
 function physics.world:update(dt)
 	if self.objects > 0 then
-		for  i = 1, self.objects do
+		for  k,v in pairs(self) do
 		
-			self[i].update(dt)
+			v.update(dt)
 		
 		end
 	end
