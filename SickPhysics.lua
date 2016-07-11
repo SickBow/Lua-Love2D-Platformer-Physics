@@ -6,7 +6,7 @@ physics.world = {}
 --each object will be initialized with its own gravity, in case you want to make a bird or a static object (floors or surfaces)
 
 --rectangular physics object to be added to the physics world
-function physics.world:newRectangle ( startX, startY, width, height, gravity )
+function physics:newRectangle ( startX, startY, width, height, gravity )
 	self = {}
 	
 	--x and y will be in the top left of the object
@@ -20,28 +20,28 @@ function physics.world:newRectangle ( startX, startY, width, height, gravity )
 	end
 	
 	self.update = function (deltaTime)
-	
+		
 	end
 	
 	return self
 end
 
 --all physics objects created must be added to the world to use properly
-function physics.world:add (object)
-	table.insert(self, object)
+function physics.add (object)
+	table.insert(physics.world, object)
 end
 
-function physics.world:delete (object)
-	table.remove(self, object)
+function physics.delete (object)
+	table.remove(physics.world, object)
 end
 
 --must be placed in love.update(dt) function of your game 
-function physics.world:update(dt)
-	if self.objects > 0 then
-		for  k,v in pairs(self) do
+function physics.update(dt)
+	
+	for  index,value in pairs(physics.world) do
 		
-			v.update(dt)
+		value.update(dt)
 		
-		end
 	end
+
 end
