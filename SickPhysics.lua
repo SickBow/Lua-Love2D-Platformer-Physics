@@ -14,20 +14,49 @@ function physics:newRectangle ( startX, startY, width, height, gravity )
 	self.width, self.height = width, height
 	self.gravity = gravity
 	self.grounded = false
+	self.airTimer = 0
 	self.forceX, self.forceY = 0,0
+	self.originX = self.width/2 + self.X
+	self.originY = self.height/2 + self.Y
 	
-	self.addForce = function (forceX, forceY )
-		self.forceX, self.forceY = forceX, forceY
+	self.addForce = function (forceX, forceY --[[use positive values]])
+		self.forceX = forceX
+		self.forceY = self.forceY + (-1)*forceY --makes adding force more intuitive
+		
+		if self.forceY > 0 then
+		self.Y = self.Y - 1
+		end
+		
 	end
 	
 	self.update = function (dt)
+		
 		if self.forceX < 0 then
 			self.forceX = self.forceX + 10*(dt)
 		elseif self.forceX > 0 then
 			self.forceX = self.forceX - 10*(dt)
 		end
 		
-		self.X = self.X + self.forceX 
+		for  index,value in pairs(physics.world) do
+		
+			if self.Y + self.height > value.Y and self.X > value.X and self.X + self.width < value.X + value.width then
+				self.grouned = true 
+				self.Y = value.startY
+			end
+			
+		end
+		
+		if self.grounded == true then
+				self.forceY = 0
+				self.airTimer = 0 
+		else
+				self.airTimer = self.airTimer + dt
+				self.forceY = self.forceY+((self.airTimer)^2)*(self.gravity)
+		end
+		
+		self.Y = self.Y + self.forceY
+		self.X = self.X + self.forceX
+		
 	end
 	
 	return self
